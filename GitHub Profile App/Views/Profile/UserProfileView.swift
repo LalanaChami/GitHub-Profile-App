@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct UserProfileView: View {
-    let user: User
+    @State var user: User
+    let isSeachedUser: Bool
     @StateObject private var followersViewModel = FollowersViewModel()
     @StateObject private var followingViewModel = FollowingViewModel()
+    @ObservedObject private var searchViewModel =  SearchViewModel()
     @State private var isLoading = true
     @State private var isAnimating = false
     
@@ -24,7 +26,9 @@ struct UserProfileView: View {
                         .onAppear {
 
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                isLoading = false
+                                if isSeachedUser {
+                                    isLoading = false
+                                }
                             }
                         }
                 } else {
@@ -134,15 +138,28 @@ struct UserProfileView: View {
             isLoading = true
             isAnimating = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                isLoading = false
+                if isSeachedUser {
+                    isLoading = false
+                }
+                
                 withAnimation {
                     isAnimating = true
                 }
             }
         }
         .onAppear {
+            if !isSeachedUser {
+                isLoading = true
+                searchViewModel.searchUser(username: user.login)
+            }
             withAnimation {
                 isAnimating = true
+            }
+        }
+        .onReceive(searchViewModel.$user) { userData in
+            if let userData = userData {
+                user = userData
+                isLoading = false
             }
         }
     }

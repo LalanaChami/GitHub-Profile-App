@@ -39,7 +39,7 @@ struct SearchView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 40)
                     } else if let user = viewModel.user {
-                        NavigationLink(destination: UserProfileView(user: user)) {
+                        NavigationLink(destination: UserProfileView(user: user, isSeachedUser: true)) {
                             UserProfilePreview(user: user)
                                 .padding(.horizontal)
                         }

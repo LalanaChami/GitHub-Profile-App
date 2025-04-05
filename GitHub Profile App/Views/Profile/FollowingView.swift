@@ -53,7 +53,7 @@ struct FollowingView: View {
                 }
             } else {
                 List(viewModel.following) { user in
-                    NavigationLink(destination: UserProfileView(user: user)) {
+                    NavigationLink(destination: UserProfileView(user: user, isSeachedUser: false)) {
                         UserListItemView(user: user)
                     }
                 }
