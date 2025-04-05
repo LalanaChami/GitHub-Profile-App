@@ -38,9 +38,9 @@ struct SearchView: View {
                     .padding()
                 Spacer()
             } else if let user = viewModel.user {
-                Text("User Found: \(user.login)")
-                
-                AsyncImage(url: URL(string: user.avatarUrl)!)
+                NavigationLink(destination: UserProfileView(user: user)) {
+                    UserProfilePreview(user: user)
+                }
                 Spacer()
             } else if viewModel.showNotFoundError {
                 NotFoundView()
