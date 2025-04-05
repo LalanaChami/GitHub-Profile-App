@@ -13,8 +13,8 @@ struct User: Codable, Identifiable {
     let name: String?
     let avatarUrl: String
     let bio: String?
-    let followers: Int
-    let following: Int
+    let followers: Int?
+    let following: Int?
     let htmlUrl: String
     
     enum CodingKeys: String, CodingKey {
@@ -27,6 +27,19 @@ struct User: Codable, Identifiable {
         case following
         case htmlUrl = "html_url"
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        login = try container.decode(String.self, forKey: .login)
+        avatarUrl = try container.decode(String.self, forKey: .avatarUrl)
+        htmlUrl = try container.decode(String.self, forKey: .htmlUrl)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        bio = try container.decodeIfPresent(String.self, forKey: .bio)
+        followers = try container.decodeIfPresent(Int.self, forKey: .followers) ?? 0
+        following = try container.decodeIfPresent(Int.self, forKey: .following) ?? 0
+    }
+    
 }
 
 struct UserListResponse: Codable {

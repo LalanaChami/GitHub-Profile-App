@@ -9,6 +9,8 @@ import SwiftUI
 
 struct UserProfileView: View {
     let user: User
+    @StateObject private var followersViewModel = FollowersViewModel()
+    @StateObject private var followingViewModel = FollowingViewModel()
     @State private var isLoading = true
     
     var body: some View {
@@ -52,24 +54,28 @@ struct UserProfileView: View {
                     }
                     
                     HStack(spacing: 40) {
-                        VStack {
-                            Text("\(user.followers)")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                            
-                            Text("Followers")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+                        NavigationLink(destination: FollowersView(username: user.login, viewModel: followersViewModel)) {
+                            VStack {
+                                Text("\(user.followers ?? 0)")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                
+                                Text("Followers")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
                         }
                         
-                        VStack {
-                            Text("\(user.following)")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                            
-                            Text("Following")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+                        NavigationLink(destination: FollowingView(username: user.login, viewModel: followingViewModel)) {
+                            VStack {
+                                Text("\(user.following ?? 0)")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                
+                                Text("Following")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
                         }
                     }
                     .padding()
