@@ -9,28 +9,33 @@ import SwiftUI
 
 
 struct SkeletonView: View {
-    @State private var isAnimating = false
-    
+    @State private var animationOffset: CGFloat = -200
+    let isCircle: Bool
     var body: some View {
-        Rectangle()
-            .fill(
-                LinearGradient(
-                    gradient: Gradient(colors: [Color.gray.opacity(0.2), Color.gray.opacity(0.1), Color.gray.opacity(0.2)]),
-                    startPoint: .leading,
-                    endPoint: .trailing
+        GeometryReader { geometry in
+            Color.gray.opacity(0.2)
+                .overlay(
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.clear, Color.white.opacity(0.6), Color.clear]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .rotationEffect(.degrees(70))
+                    .offset(x: animationOffset)
+                    .frame(width: geometry.size.width * 2)
                 )
-            )
-            .cornerRadius(8)
-            .mask(Rectangle().cornerRadius(8))
-            .offset(x: isAnimating ? 400 : -400)
-            .animation(
-                Animation.linear(duration: 1.5)
-                    .repeatForever(autoreverses: false),
-                value: isAnimating
-            )
-            .onAppear {
-                isAnimating = true
-            }
+                .mask(
+                    isCircle
+                    ? AnyView(Circle().aspectRatio(isCircle ? 1 : nil, contentMode: .fit))
+                    : AnyView(Rectangle().cornerRadius(8))
+                )
+                .onAppear {
+                    withAnimation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false)) {
+                        animationOffset = geometry.size.width + 200
+                    }
+                }
+        }
+        .cornerRadius(8)
     }
 }
 
@@ -41,34 +46,33 @@ struct UserProfileSkeletonView: View {
             Circle()
                 .fill(Color.gray.opacity(0.2))
                 .frame(width: 120, height: 120)
-                .overlay(SkeletonView())
-                .padding(.top, 20)
+                .overlay(SkeletonView(isCircle: true))
             
-            SkeletonView()
+            SkeletonView(isCircle: false)
                 .frame(width: 200, height: 30)
             
-            SkeletonView()
+            SkeletonView(isCircle: false)
                 .frame(width: 150, height: 20)
                 .padding(.bottom, 10)
             
-            SkeletonView()
+            SkeletonView(isCircle: false)
                 .frame(height: 60)
                 .padding(.horizontal)
             
             HStack(spacing: 40) {
                 VStack {
-                    SkeletonView()
+                    SkeletonView(isCircle: false)
                         .frame(width: 50, height: 30)
                     
-                    SkeletonView()
+                    SkeletonView(isCircle: false)
                         .frame(width: 80, height: 20)
                 }
                 
                 VStack {
-                    SkeletonView()
+                    SkeletonView(isCircle: false)
                         .frame(width: 50, height: 30)
                     
-                    SkeletonView()
+                    SkeletonView(isCircle: false)
                         .frame(width: 80, height: 20)
                 }
             }
