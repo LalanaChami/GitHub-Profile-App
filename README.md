@@ -34,11 +34,11 @@ The app uses the GitHub REST API to fetch user data. The main endpoints used are
 
 | Following User Profile Screen | Following List Screen |
 | --- | --- |
-| <img src="./screenshots/5.png" alt="Following User Profile Screen" width="300"/> | <img src="./screenshots/3.png" alt="Following List Screen" width="300"/> |
+| <img src="./Screenshots/5.png" alt="Following User Profile Screen" width="300"/> | <img src="./Screenshots/3.png" alt="Following List Screen" width="300"/> |
 
 | Profile Screen | Search Screen |
 | --- | --- |
-| <img src="./screenshots/2.png" alt="Home - Book List Screen" width="300"/> | <img src="./screenshots/1.png" alt="Search Screen" width="300"/> |
+| <img src="./Screenshots/2.png" alt="Home - Book List Screen" width="300"/> | <img src="./Screenshots/1.png" alt="Search Screen" width="300"/> |
 
 ## Screen Recording
-<!-- <img src="./screenshots/rec.gif" alt="App in Action" width="300"/> -->
+<img src="./Screenshots/rec.gif" alt="App in Action" width="300"/>
