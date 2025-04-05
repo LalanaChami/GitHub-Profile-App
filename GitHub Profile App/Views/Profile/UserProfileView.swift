@@ -137,11 +137,8 @@ struct UserProfileView: View {
         .refreshable {
             isLoading = true
             isAnimating = false
+            searchViewModel.searchUser(username: user.login)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                if isSeachedUser {
-                    isLoading = false
-                }
-                
                 withAnimation {
                     isAnimating = true
                 }
