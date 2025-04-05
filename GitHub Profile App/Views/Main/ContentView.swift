@@ -12,7 +12,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            SearchView()
+            SearchView(viewModel: viewModel)
                 .navigationTitle("GitHub Profile")
         }
     }

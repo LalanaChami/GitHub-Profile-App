@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
+    @ObservedObject var viewModel: SearchViewModel
     @State private var username: String = ""
     
     var body: some View {
@@ -19,7 +20,7 @@ struct SearchView: View {
                     .disableAutocorrection(true)
                 
                 Button(action: {
-                    //
+                    viewModel.searchUser(username: username)
                 }) {
                     Text("Search")
                         .padding(.horizontal)
@@ -31,10 +32,25 @@ struct SearchView: View {
             }
             .padding()
             
-            Text("User Found")
-            
-            AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/33516757?s=400&u=1d98560f634b4901a75dd956814143dd0c0a7d19")!)
-            Spacer()
+            if viewModel.isLoading {
+                ProgressView()
+                    .scaleEffect(1.5)
+                    .padding()
+                Spacer()
+            } else if let user = viewModel.user {
+                Text("User Found: \(user.login)")
+                
+                AsyncImage(url: URL(string: user.avatarUrl)!)
+                Spacer()
+            } else if viewModel.showNotFoundError {
+                NotFoundView()
+                Spacer()
+            } else {
+                Spacer()
+                Text("Search for a GitHub user")
+                    .foregroundColor(.gray)
+                Spacer()
+            }
         }
     }
 }
